@@ -33,6 +33,8 @@ piSum a b
   | a > b     = 0
   | otherwise = (1 / ((a + 2) * a)) + piSum (a + 4) b
 
+average a b = (a + b) / 2
+
 search :: (Ord a, Fractional a) => (a -> a) -> a -> a -> a
 search f n p
   | closeEnough n p = midpoint
@@ -42,7 +44,6 @@ search f n p
   where
    testValue       = f midpoint
    midpoint        = average n p
-   average a b     = (a + b) / 2
    closeEnough x y = abs (x - y) < 0.001
 
 halfIntervalMethod :: (Ord a, Fractional a) => (a -> a) -> a -> a -> a
@@ -55,7 +56,7 @@ halfIntervalMethod f a b
     bv = f b
 
 tolerance :: (Fractional a) => a
-tolerance = 0.0001
+tolerance = 0.00001
 
 fixedPoint :: (Ord a, Fractional a) => (a -> a) -> a -> a
 fixedPoint f firstGuess = try firstGuess
@@ -66,4 +67,5 @@ fixedPoint f firstGuess = try firstGuess
       | otherwise              = try next
       where
         next = f guess
-  
+ 
+sqrt' x = fixedPoint (\y -> average y (x / y)) 1.0
